@@ -4,14 +4,18 @@ import cors from "cors";
 import UserModel from "./Models/UserModel.js";
 import bcrypt from "bcrypt";
 import PostModel from "./Models/Posts.js";
+import * as ENV from "./config.js";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 //Database connection
-const connectString =
-  "mongodb+srv://66s1857:user12@postitcluster.u4qlg99.mongodb.net/postITDb?retryWrites=true&w=majority&appName=PostITCluster";
+//const connectString =
+  //"mongodb+srv://66s1857:user12@postitcluster.u4qlg99.mongodb.net/postITDb?retryWrites=true&w=majority&appName=PostITCluster";
+
+  const connectString =
+  `mongodb+srv://${ENV.DB_USER}:${ENV.DB_PASSWORD}@${ENV.DB_CLUSTER}/${ENV.DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`;
 
 mongoose.connect(connectString, {
   useNewUrlParser: true,
@@ -142,6 +146,11 @@ app.put("/likePost/:postId/", async (req, res) => {
   }
 });
 
-app.listen(3001, () => {
-  console.log("You are connected");
+//app.listen(3001, () => {
+ // console.log("You are connected");
+//});
+
+const port = ENV.PORT || 3001;
+app.listen(port, () => {
+console.log(`You are connected at port: ${port}`);
 });
